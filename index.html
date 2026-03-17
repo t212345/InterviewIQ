@@ -628,7 +628,14 @@ function toggleRecording() {
   }
 }
 
-function startRecording() {
+async function startRecording() {
+  try {
+    await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch(e) {
+    document.getElementById('voiceStatus').textContent = 'Microphone access denied. Please allow mic access in your browser settings.';
+    return;
+  }
+
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   session.recognition = new SR();
   session.recognition.continuous = true;
@@ -648,10 +655,32 @@ function startRecording() {
     display.textContent = session.transcript + (interim ? ' ' + interim : '');
   };
 
-  session.recognition.start();
-  session.isRecording = true;
-  document.getElementById('voiceBtn').classList.add('recording');
-  document.getElementById('voiceStatus').textContent = 'Recording... tap to stop';
+  session.recognition.onerror = (e) => {
+    const msgs = {
+      'not-allowed': 'Microphone access denied. Allow mic access and try again.',
+      'no-speech': 'No speech detected. Try speaking louder.',
+      'network': 'Network error. Check your connection.',
+      'aborted': 'Recording stopped.'
+    };
+    document.getElementById('voiceStatus').textContent = msgs[e.error] || `Error: ${e.error}. Try again.`;
+    document.getElementById('voiceBtn').classList.remove('recording');
+    session.isRecording = false;
+  };
+
+  session.recognition.onend = () => {
+    if (session.isRecording) {
+      try { session.recognition.start(); } catch(e) {}
+    }
+  };
+
+  try {
+    session.recognition.start();
+    session.isRecording = true;
+    document.getElementById('voiceBtn').classList.add('recording');
+    document.getElementById('voiceStatus').textContent = 'Recording... tap to stop';
+  } catch(e) {
+    document.getElementById('voiceStatus').textContent = 'Could not start recording. Try refreshing the page.';
+  }
 }
 
 function stopRecording() {
