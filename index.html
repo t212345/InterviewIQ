@@ -421,7 +421,11 @@
     </div>
 
     <div class="question-card">
-      <div class="interviewer-label"><span class="interviewer-dot"></span>Interviewer</div>
+      <div class="interviewer-label">
+        <span class="interviewer-dot"></span>Interviewer
+        <button onclick="speak(document.getElementById('questionText').textContent)" style="margin-left:auto;background:none;border:1px solid var(--border2);border-radius:6px;padding:3px 10px;font-size:11px;cursor:pointer;color:var(--ink3);font-family:'Instrument Sans',sans-serif;" title="Read question aloud">&#9654; Listen</button>
+        <button onclick="stopSpeaking()" style="background:none;border:1px solid var(--border2);border-radius:6px;padding:3px 10px;font-size:11px;cursor:pointer;color:var(--ink3);font-family:'Instrument Sans',sans-serif;margin-left:4px;" title="Stop">&#9646;&#9646; Stop</button>
+      </div>
       <div class="question-text" id="questionText">Loading your first question...</div>
       <div class="question-followup" id="questionFollowup" style="display:none"></div>
     </div>
@@ -484,9 +488,9 @@
   </div>
 </div>
 
+<script src="https://js.puter.com/v2/"></script>
 <script>
-const API = 'https://api.anthropic.com/v1/messages';
-const MODEL = 'claude-sonnet-4-20250514';
+const MODEL = 'gemini-2.5-flash';
 
 let session = {
   type: 'first-job',
@@ -571,7 +575,7 @@ Rules: Questions should be realistic, progressively harder, mix behavioral and m
 Respond ONLY with valid JSON array: ["question1","question2","question3","question4","question5"]`;
 
   try {
-    const raw = await callClaude([{ role: 'user', content: 'Generate interview questions.' }], system);
+    const raw = await callAI([{ role: 'user', content: 'Generate interview questions.' }], system);
     session.questions = JSON.parse(raw.replace(/```json|```/g, '').trim());
   } catch(e) {
     session.questions = [
@@ -600,6 +604,8 @@ function renderQuestion() {
   }
 
   document.getElementById('answerText').focus();
+  // Auto-speak the question
+  setTimeout(() => speak(q), 300);
 }
 
 // ── INPUT ──
@@ -642,6 +648,8 @@ async function startRecording() {
   session.recognition.interimResults = true;
   session.recognition.lang = 'en-US';
   session.transcript = '';
+  document.getElementById('voiceTranscript').textContent = '';
+  document.getElementById('voiceTranscript').style.display = 'none';
 
   session.recognition.onresult = (e) => {
     let interim = '', final = '';
@@ -669,7 +677,29 @@ async function startRecording() {
 
   session.recognition.onend = () => {
     if (session.isRecording) {
-      try { session.recognition.start(); } catch(e) {}
+      try {
+        // Create a fresh instance but preserve transcript
+        const saved = session.transcript;
+        const SR2 = window.SpeechRecognition || window.webkitSpeechRecognition;
+        session.recognition = new SR2();
+        session.recognition.continuous = true;
+        session.recognition.interimResults = true;
+        session.recognition.lang = 'en-US';
+        session.recognition.onresult = (e) => {
+          let interim = '', final = '';
+          for (let i = e.resultIndex; i < e.results.length; i++) {
+            if (e.results[i].isFinal) final += e.results[i][0].transcript;
+            else interim += e.results[i][0].transcript;
+          }
+          session.transcript = saved + final;
+          const display = document.getElementById('voiceTranscript');
+          display.style.display = 'block';
+          display.textContent = session.transcript + (interim ? ' ' + interim : '');
+        };
+        session.recognition.onerror = () => {};
+        session.recognition.onend = arguments.callee;
+        session.recognition.start();
+      } catch(e) {}
     }
   };
 
@@ -693,7 +723,10 @@ function stopRecording() {
 // ── SUBMIT ──
 async function submitAnswer() {
   const isVoice = document.getElementById('itab-voice').classList.contains('active');
-  const answer = isVoice ? session.transcript : document.getElementById('answerText').value.trim();
+  const displayedTranscript = document.getElementById('voiceTranscript').textContent.trim();
+  const answer = isVoice
+    ? (session.transcript.trim() || displayedTranscript)
+    : document.getElementById('answerText').value.trim();
 
   if (!answer || answer.length < 10) {
     alert('Please provide a fuller answer before submitting.');
@@ -731,7 +764,7 @@ Respond ONLY with valid JSON:
   "followup": "<a tough follow-up question if score <= 5, else null>"
 }`;
   try {
-    const raw = await callClaude([{
+    const raw = await callAI([{
       role: 'user',
       content: `Question: "${question}"\nAnswer: "${answer}"`
     }], system);
@@ -798,22 +831,43 @@ async function generateFixes() {
   const system = `You are a brutal but helpful interview coach. Based on these answers, give exactly 3 specific, actionable improvements.
 Respond ONLY with a JSON array of 3 strings. Each string should be one concrete thing to fix, 1-2 sentences max. Be specific, not generic.`;
   try {
-    const raw = await callClaude([{role:'user',content:`Interview performance:\n${summary}\nWhat are the 3 most important things to fix?`}], system);
+    const raw = await callAI([{role:'user',content:`Interview performance:\n${summary}\nWhat are the 3 most important things to fix?`}], system);
     return JSON.parse(raw.replace(/```json|```/g,'').trim());
   } catch(e) {
     return ['Use specific examples (STAR method) for every behavioral question.','Cut filler phrases and get to the point faster.','Research the role before answering — generic answers signal zero preparation.'];
   }
 }
 
-// ── API ──
-async function callClaude(messages, system) {
-  const res = await fetch(API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: MODEL, max_tokens: 1000, system, messages })
-  });
-  const data = await res.json();
-  return data.content?.[0]?.text || '';
+// ── API (Puter.js — free, no key needed) ──
+async function callAI(messages, system) {
+  const fullMessages = [
+    { role: 'user', content: system + '\n\n' + messages[messages.length - 1].content }
+  ];
+  const response = await puter.ai.chat(fullMessages[0].content, { model: MODEL });
+  return typeof response === 'string' ? response : response?.message?.content?.[0]?.text || response?.toString() || '';
+}
+
+// ── VOICE INTERVIEWER (SpeechSynthesis) ──
+function speak(text, onEnd) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 0.95;
+  utter.pitch = 1;
+  utter.volume = 1;
+  // Pick a natural English voice if available
+  const voices = window.speechSynthesis.getVoices();
+  const preferred = voices.find(v => v.lang.startsWith('en') && v.name.includes('Natural'))
+    || voices.find(v => v.lang.startsWith('en') && !v.name.includes('Google'))
+    || voices.find(v => v.lang.startsWith('en'))
+    || voices[0];
+  if (preferred) utter.voice = preferred;
+  if (onEnd) utter.onend = onEnd;
+  window.speechSynthesis.speak(utter);
+}
+
+function stopSpeaking() {
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
 }
 
 function showLoading(text) {
