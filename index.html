@@ -7,482 +7,398 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0f0f0f;
-    --ink2: #3a3a3a;
-    --ink3: #7a7a7a;
-    --paper: #fafaf8;
-    --surface: #f3f3f0;
-    --surface2: #eceae5;
-    --accent: #1a4fff;
-    --accent-light: #eef1ff;
-    --accent-mid: #c2ccff;
-    --border: rgba(15,15,15,0.1);
-    --border2: rgba(15,15,15,0.18);
-    --red: #e03131;
-    --red-light: #fff0f0;
-    --green: #2f9e44;
-    --green-light: #f0fff4;
-    --amber: #e67700;
-    --amber-light: #fff9f0;
-    --radius: 12px;
-    --radius-lg: 18px;
+    --ink:#0f0f0f;--ink2:#3a3a3a;--ink3:#7a7a7a;
+    --paper:#fafaf8;--surface:#f3f3f0;--surface2:#eceae5;
+    --accent:#1a4fff;--accent-light:#eef1ff;--accent-mid:#c2ccff;
+    --border:rgba(15,15,15,0.1);--border2:rgba(15,15,15,0.18);
+    --red:#e03131;--red-light:#fff0f0;
+    --green:#2f9e44;--green-light:#f0fff4;
+    --amber:#e67700;--amber-light:#fff9f0;
+    --radius:12px;--radius-lg:18px;
   }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans-serif;line-height:1.6;min-height:100vh}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--paper); color: var(--ink); font-family: 'Instrument Sans', sans-serif; line-height: 1.6; min-height: 100vh; }
+  nav{position:sticky;top:0;z-index:200;background:rgba(250,250,248,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;cursor:pointer;letter-spacing:-0.3px}
+  .logo span{color:var(--accent)}
+  .btn{display:inline-flex;align-items:center;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;padding:8px 18px;border-radius:8px;border:none;cursor:pointer;transition:all .15s}
+  .btn-ghost{background:transparent;color:var(--ink2);border:1px solid var(--border2)}
+  .btn-ghost:hover{background:var(--surface)}
+  .btn-ink{background:var(--ink);color:#fff}
+  .btn-ink:hover{background:#2a2a2a}
+  .btn-lg{padding:13px 28px;font-size:15px;border-radius:10px}
 
-  /* ── NAV ── */
-  nav {
-    position: sticky; top: 0; z-index: 200;
-    background: rgba(250,250,248,0.92); backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 32px; height: 60px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .nav-logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); letter-spacing: -0.3px; cursor: pointer; }
-  .nav-logo span { color: var(--accent); }
-  .nav-actions { display: flex; align-items: center; gap: 10px; }
-  .btn { display: inline-flex; align-items: center; gap: 6px; font-family: 'Instrument Sans', sans-serif; font-size: 14px; font-weight: 500; padding: 8px 18px; border-radius: 8px; border: none; cursor: pointer; transition: all 0.15s; text-decoration: none; }
-  .btn-ghost { background: transparent; color: var(--ink2); border: 1px solid var(--border2); }
-  .btn-ghost:hover { background: var(--surface); }
-  .btn-primary { background: var(--ink); color: #fff; }
-  .btn-primary:hover { background: #2a2a2a; }
-  .btn-accent { background: var(--accent); color: #fff; }
-  .btn-accent:hover { background: #1440ee; }
-  .btn-lg { padding: 13px 28px; font-size: 15px; border-radius: 10px; }
+  .screen{display:none}
+  .screen.active{display:block;animation:fadeUp .4s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
-  /* ── SCREENS ── */
-  .screen { display: none; }
-  .screen.active { display: block; }
+  /* LANDING */
+  .hero{max-width:860px;margin:0 auto;padding:100px 32px 80px;text-align:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--accent-light);color:var(--accent);border:1px solid var(--accent-mid);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:32px}
+  .eyebrow::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%}
+  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(42px,7vw,72px);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:24px}
+  .hero h1 em{font-style:italic;color:var(--accent)}
+  .hero p{font-size:18px;color:var(--ink3);max-width:520px;margin:0 auto 44px;line-height:1.7}
+  .hero-cta{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+  .hero-note{margin-top:16px;font-size:13px;color:var(--ink3)}
 
-  /* ── LANDING ── */
-  #screen-landing { animation: fadeUp 0.5s ease both; }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+  .stats{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);padding:32px;display:flex;justify-content:center;gap:64px;flex-wrap:wrap}
+  .stat{text-align:center}
+  .stat-n{font-family:'Playfair Display',serif;font-size:32px;font-weight:700}
+  .stat-l{font-size:13px;color:var(--ink3);margin-top:2px}
 
-  .hero {
-    max-width: 860px; margin: 0 auto;
-    padding: 100px 32px 80px;
-    text-align: center;
-  }
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--accent-light); color: var(--accent);
-    border: 1px solid var(--accent-mid);
-    font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 5px 14px; border-radius: 100px; margin-bottom: 32px;
-  }
-  .hero-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(42px, 7vw, 72px); font-weight: 900;
-    line-height: 1.05; letter-spacing: -2px;
-    color: var(--ink); margin-bottom: 24px;
-  }
-  .hero h1 em { font-style: italic; color: var(--accent); }
-  .hero-sub { font-size: 18px; color: var(--ink3); max-width: 520px; margin: 0 auto 44px; line-height: 1.7; }
-  .hero-cta { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
-  .hero-note { margin-top: 16px; font-size: 13px; color: var(--ink3); }
+  .features{max-width:960px;margin:0 auto;padding:80px 32px}
+  .features h2{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-1px;text-align:center;margin-bottom:12px}
+  .sec-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);text-align:center;margin-bottom:12px}
+  .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-top:48px}
+  .feat{background:var(--paper);padding:28px}
+  .feat-icon{width:36px;height:36px;border-radius:8px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+  .feat-icon svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .feat h3{font-size:15px;font-weight:600;margin-bottom:6px}
+  .feat p{font-size:13px;color:var(--ink3);line-height:1.6}
 
-  .stats-bar {
-    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-    background: var(--surface); padding: 32px;
-    display: flex; justify-content: center; gap: 64px; flex-wrap: wrap;
-  }
-  .stat-item { text-align: center; }
-  .stat-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--ink); }
-  .stat-label { font-size: 13px; color: var(--ink3); margin-top: 2px; }
+  .types-sec{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 32px}
+  .types-inner{max-width:860px;margin:0 auto}
+  .types-inner h2{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);font-weight:700;letter-spacing:-1px;text-align:center;margin-bottom:40px}
+  .types{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .type-card{background:var(--paper);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:24px;cursor:pointer;transition:all .18s}
+  .type-card:hover{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-light);transform:translateY(-2px)}
+  .ttag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:12px}
+  .ttag-blue{background:var(--accent-light);color:var(--accent)}
+  .ttag-green{background:var(--green-light);color:var(--green)}
+  .ttag-amber{background:var(--amber-light);color:var(--amber)}
+  .type-card h3{font-size:16px;font-weight:600;margin-bottom:6px}
+  .type-card p{font-size:13px;color:var(--ink3);line-height:1.5}
 
-  .features {
-    max-width: 960px; margin: 0 auto;
-    padding: 80px 32px;
-  }
-  .features-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); margin-bottom: 12px; text-align: center; }
-  .features h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -1px; text-align: center; margin-bottom: 56px; }
-  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-  .feature-item { background: var(--paper); padding: 28px 28px; }
-  .feature-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--accent-light); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
-  .feature-icon svg { width: 18px; height: 18px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .feature-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-  .feature-desc { font-size: 13px; color: var(--ink3); line-height: 1.6; }
+  .cta-sec{max-width:600px;margin:0 auto;padding:100px 32px;text-align:center}
+  .cta-sec h2{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:900;letter-spacing:-1.5px;margin-bottom:16px}
+  .cta-sec p{font-size:16px;color:var(--ink3);margin-bottom:32px}
 
-  .types-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 80px 32px; }
-  .types-inner { max-width: 860px; margin: 0 auto; }
-  .types-inner h2 { font-family: 'Playfair Display', serif; font-size: clamp(26px, 4vw, 38px); font-weight: 700; letter-spacing: -1px; margin-bottom: 40px; text-align: center; }
-  .types-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-  .type-card { background: var(--paper); border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 24px; cursor: pointer; transition: all 0.18s; }
-  .type-card:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); transform: translateY(-2px); }
-  .type-tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
-  .tag-blue { background: var(--accent-light); color: var(--accent); }
-  .tag-green { background: var(--green-light); color: var(--green); }
-  .tag-amber { background: var(--amber-light); color: var(--amber); }
-  .type-name { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
-  .type-desc { font-size: 13px; color: var(--ink3); line-height: 1.5; }
+  /* SETUP */
+  .setup{max-width:640px;margin:0 auto;padding:56px 32px}
+  .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink3);cursor:pointer;background:none;border:none;font-family:'Instrument Sans',sans-serif;padding:0;margin-bottom:36px}
+  .back:hover{color:var(--ink)}
+  .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+  .setup h2{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;letter-spacing:-.8px;margin-bottom:6px}
+  .setup-sub{font-size:15px;color:var(--ink3);margin-bottom:40px}
+  .slabel{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+  .pill{padding:9px 18px;border-radius:100px;border:1.5px solid var(--border2);background:var(--paper);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;font-family:'Instrument Sans',sans-serif;color:var(--ink2)}
+  .pill.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .div{height:1px;background:var(--border);margin:24px 0}
+  .jd-tabs{display:flex;gap:8px;margin-bottom:12px}
+  .jdtab{padding:7px 16px;border-radius:8px;border:1px solid var(--border2);background:var(--paper);font-size:13px;font-weight:500;cursor:pointer;font-family:'Instrument Sans',sans-serif;color:var(--ink3);transition:all .15s}
+  .jdtab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .jd-note{font-size:13px;color:var(--ink3)}
+  textarea.jd{width:100%;min-height:120px;background:var(--paper);border:1.5px solid var(--border2);border-radius:var(--radius);padding:14px 16px;font-size:14px;font-family:'Instrument Sans',sans-serif;color:var(--ink);resize:vertical;outline:none;transition:border-color .15s;display:none;margin-top:10px}
+  textarea.jd:focus{border-color:var(--accent)}
 
-  .cta-section { max-width: 600px; margin: 0 auto; padding: 100px 32px; text-align: center; }
-  .cta-section h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 900; letter-spacing: -1.5px; margin-bottom: 16px; }
-  .cta-section p { font-size: 16px; color: var(--ink3); margin-bottom: 32px; }
+  /* INTERVIEW */
+  .ivwrap{max-width:720px;margin:0 auto;padding:32px 32px 60px}
+  .ivhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:12px}
+  .ivmeta{display:flex;align-items:center;gap:12px}
+  .ivbadge{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 12px;border-radius:100px;background:var(--accent-light);color:var(--accent)}
+  .ivqnum{font-size:13px;color:var(--ink3)}
+  .prog-wrap{display:flex;align-items:center;gap:10px}
+  .prog{height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;width:100px}
+  .prog-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .5s ease}
 
-  /* ── SETUP ── */
-  #screen-setup { animation: fadeUp 0.35s ease both; }
-  .setup-wrap { max-width: 640px; margin: 0 auto; padding: 56px 32px; }
-  .setup-back { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink3); cursor: pointer; margin-bottom: 36px; border: none; background: none; font-family: 'Instrument Sans', sans-serif; }
-  .setup-back:hover { color: var(--ink); }
-  .setup-back svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
-  .setup-wrap h2 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; letter-spacing: -0.8px; margin-bottom: 6px; }
-  .setup-sub { font-size: 15px; color: var(--ink3); margin-bottom: 40px; }
-  .setup-step { margin-bottom: 28px; }
-  .step-label { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink3); margin-bottom: 10px; }
-  .type-pills { display: flex; gap: 8px; flex-wrap: wrap; }
-  .type-pill { padding: 9px 18px; border-radius: 100px; border: 1.5px solid var(--border2); background: var(--paper); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; font-family: 'Instrument Sans', sans-serif; color: var(--ink2); }
-  .type-pill.selected { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .mode-card { border: 1.5px solid var(--border2); border-radius: var(--radius); padding: 16px; cursor: pointer; transition: all 0.15s; background: var(--paper); }
-  .mode-card:hover { border-color: var(--ink2); }
-  .mode-card.selected { border-color: var(--accent); background: var(--accent-light); }
-  .mode-card-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
-  .mode-card-desc { font-size: 12px; color: var(--ink3); }
-  .mode-card.selected .mode-card-desc { color: var(--accent); }
-  .jd-area { width: 100%; min-height: 120px; background: var(--paper); border: 1.5px solid var(--border2); border-radius: var(--radius); padding: 14px 16px; font-size: 14px; font-family: 'Instrument Sans', sans-serif; color: var(--ink); resize: vertical; outline: none; transition: border-color 0.15s; }
-  .jd-area:focus { border-color: var(--accent); }
-  .jd-toggle { display: flex; gap: 8px; margin-bottom: 12px; }
-  .jd-tab { padding: 7px 16px; border-radius: 8px; border: 1px solid var(--border2); background: var(--paper); font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'Instrument Sans', sans-serif; color: var(--ink3); transition: all 0.15s; }
-  .jd-tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .setup-footer { margin-top: 36px; }
-  .divider-line { height: 1px; background: var(--border); margin: 28px 0; }
+  .qcard{background:var(--paper);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:28px;margin-bottom:16px}
+  .qlabel{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}
+  .qdot{width:8px;height:8px;background:var(--ink);border-radius:50%;flex-shrink:0}
+  .qtext{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;line-height:1.4;letter-spacing:-.3px}
 
-  /* ── INTERVIEW ── */
-  #screen-interview { animation: fadeUp 0.35s ease both; }
-  .interview-wrap { max-width: 720px; margin: 0 auto; padding: 32px 32px 40px; }
-  .interview-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-  .interview-meta { display: flex; align-items: center; gap: 12px; }
-  .interview-badge { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; background: var(--accent-light); color: var(--accent); }
-  .interview-qnum { font-size: 13px; color: var(--ink3); }
-  .progress-bar { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; width: 120px; }
-  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.4s ease; }
+  .fucard{background:var(--amber-light);border:1px solid rgba(230,119,0,.2);border-radius:var(--radius);padding:14px 18px;margin-bottom:16px;display:none}
+  .fulabel{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--amber);margin-bottom:6px}
+  .futext{font-size:14px;color:var(--ink2);line-height:1.6;font-style:italic}
 
-  .question-card { background: var(--paper); border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 28px 28px; margin-bottom: 20px; }
-  .interviewer-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink3); margin-bottom: 14px; }
-  .interviewer-dot { width: 8px; height: 8px; background: var(--ink); border-radius: 50%; }
-  .question-text { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; line-height: 1.4; color: var(--ink); letter-spacing: -0.3px; }
-  .question-followup { margin-top: 12px; font-size: 14px; color: var(--ink3); font-style: italic; border-top: 1px solid var(--border); padding-top: 12px; }
+  .awrap{margin-bottom:14px;position:relative}
+  textarea.ans{width:100%;min-height:160px;background:var(--paper);border:1.5px solid var(--border2);border-radius:var(--radius);padding:16px 18px;font-size:15px;font-family:'Instrument Sans',sans-serif;color:var(--ink);resize:vertical;outline:none;transition:border-color .15s;line-height:1.7}
+  textarea.ans:focus{border-color:var(--accent)}
+  .filler-warn{display:none;background:var(--red-light);border:1px solid rgba(224,49,49,.2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--red);margin-top:8px;line-height:1.5}
+  .filler-warn.show{display:block}
 
-  .answer-section { margin-bottom: 20px; }
-  .input-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
-  .input-tab { padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border2); background: var(--paper); font-size: 12px; font-weight: 500; cursor: pointer; font-family: 'Instrument Sans', sans-serif; color: var(--ink3); transition: all 0.15s; }
-  .input-tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .answer-textarea { width: 100%; min-height: 140px; background: var(--paper); border: 1.5px solid var(--border2); border-radius: var(--radius); padding: 16px 18px; font-size: 15px; font-family: 'Instrument Sans', sans-serif; color: var(--ink); resize: vertical; outline: none; transition: border-color 0.15s; line-height: 1.7; }
-  .answer-textarea:focus { border-color: var(--accent); }
-  .voice-panel { border: 1.5px solid var(--border2); border-radius: var(--radius); padding: 28px; text-align: center; display: none; }
-  .voice-panel.active { display: block; }
-  .voice-btn { width: 64px; height: 64px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; transition: all 0.2s; background: var(--surface); }
-  .voice-btn:hover { background: var(--surface2); }
-  .voice-btn.recording { background: var(--red); animation: pulse 1.5s infinite; }
-  @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(224,49,49,0.3)} 50%{box-shadow:0 0 0 12px rgba(224,49,49,0)} }
-  .voice-btn svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .voice-btn.recording svg { stroke: #fff; }
-  .voice-status { font-size: 14px; color: var(--ink3); }
-  .voice-transcript { margin-top: 14px; padding: 12px 16px; background: var(--surface); border-radius: 8px; font-size: 14px; color: var(--ink2); text-align: left; display: none; line-height: 1.6; }
+  .subrow{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  .wc{font-size:13px;color:var(--ink3)}
+  .wc.lo{color:var(--red)}
+  .wc.ok{color:var(--green)}
 
-  .submit-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-  .char-count { font-size: 12px; color: var(--ink3); }
+  .ifb{border-radius:var(--radius-lg);overflow:hidden;margin-bottom:20px;border:1px solid var(--border);display:none}
+  .ifb.show{display:block;animation:fadeUp .3s ease both}
+  .ifhead{padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+  .ifhead.hi{background:var(--green-light);border-bottom:1px solid rgba(47,158,68,.15)}
+  .ifhead.md{background:var(--amber-light);border-bottom:1px solid rgba(230,119,0,.15)}
+  .ifhead.lo{background:var(--red-light);border-bottom:1px solid rgba(224,49,49,.15)}
+  .ifscore{font-family:'Playfair Display',serif;font-size:24px;font-weight:700}
+  .ifscore.hi{color:var(--green)}.ifscore.md{color:var(--amber)}.ifscore.lo{color:var(--red)}
+  .ifverdict{font-size:13px;font-weight:600}
+  .ifverdict.hi{color:var(--green)}.ifverdict.md{color:var(--amber)}.ifverdict.lo{color:var(--red)}
+  .ifbody{padding:16px 20px;background:var(--paper)}
+  .ifcomment{font-size:14px;color:var(--ink2);line-height:1.7;margin-bottom:10px}
+  .iftip{font-size:13px;color:var(--accent);background:var(--accent-light);border-radius:8px;padding:10px 14px}
+  .ifnext{width:100%;padding:12px;background:var(--ink);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Instrument Sans',sans-serif;margin-top:12px;transition:background .15s}
+  .ifnext:hover{background:#2a2a2a}
 
-  /* ── FEEDBACK ── */
-  .feedback-card { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 16px; }
-  .feedback-header { padding: 16px 20px; background: var(--surface); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
-  .feedback-q { font-size: 13px; font-weight: 500; color: var(--ink2); flex: 1; padding-right: 16px; line-height: 1.4; }
-  .score-badge { font-size: 18px; font-weight: 700; font-family: 'Playfair Display', serif; min-width: 42px; text-align: center; }
-  .score-high { color: var(--green); }
-  .score-mid { color: var(--amber); }
-  .score-low { color: var(--red); }
-  .feedback-body { padding: 16px 20px; }
-  .feedback-answer { font-size: 13px; color: var(--ink3); margin-bottom: 12px; padding: 10px 14px; background: var(--surface); border-radius: 8px; line-height: 1.6; font-style: italic; border-left: 3px solid var(--border2); }
-  .feedback-comment { font-size: 14px; color: var(--ink2); line-height: 1.6; margin-bottom: 10px; }
-  .feedback-tip { font-size: 13px; color: var(--accent); background: var(--accent-light); border-radius: 8px; padding: 10px 14px; line-height: 1.5; }
+  /* DEBRIEF */
+  .dbhead{text-align:center;padding:56px 32px 40px;border-bottom:1px solid var(--border)}
+  .dbhead h2{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;letter-spacing:-1px;margin-bottom:6px}
+  .db-ey{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:20px}
+  .big-score{font-family:'Playfair Display',serif;font-size:80px;font-weight:900;line-height:1;margin:16px 0 4px}
+  .big-score.hi{color:var(--green)}.big-score.md{color:var(--amber)}.big-score.lo{color:var(--red)}
+  .score-label{font-size:14px;color:var(--ink3)}
+  .grade{display:inline-block;font-size:13px;font-weight:600;padding:4px 14px;border-radius:100px;margin-top:10px}
+  .grade.hi{background:var(--green-light);color:var(--green)}
+  .grade.md{background:var(--amber-light);color:var(--amber)}
+  .grade.lo{background:var(--red-light);color:var(--red)}
 
-  .debrief-header { text-align: center; padding: 48px 32px 36px; }
-  .debrief-header h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; letter-spacing: -1px; margin-bottom: 8px; }
-  .overall-score { font-family: 'Playfair Display', serif; font-size: 72px; font-weight: 900; line-height: 1; margin: 20px 0 8px; }
-  .overall-score.high { color: var(--green); }
-  .overall-score.mid { color: var(--amber); }
-  .overall-score.low { color: var(--red); }
-  .overall-label { font-size: 14px; color: var(--ink3); }
-  .debrief-summary { max-width: 640px; margin: 0 auto; padding: 0 32px 60px; }
-  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
-  .summary-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
-  .summary-card-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink3); margin-bottom: 6px; }
-  .summary-card-val { font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.5; }
-  .fix-list { margin-bottom: 28px; }
-  .fix-item { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-  .fix-num { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--accent); min-width: 24px; }
-  .fix-text { font-size: 14px; color: var(--ink2); line-height: 1.6; padding-top: 2px; }
-  .debrief-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .dbbody{max-width:680px;margin:0 auto;padding:40px 32px 60px}
+  .dblabel{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}
+  .sg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px}
+  .sc{border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px}
+  .sc-l{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);margin-bottom:6px}
+  .sc-v{font-size:14px;color:var(--ink);line-height:1.5}
+  .fixes{margin-bottom:32px}
+  .fix{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--border)}
+  .fix:first-child{border-top:1px solid var(--border)}
+  .fix-n{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--accent);min-width:20px}
+  .fix-t{font-size:14px;color:var(--ink2);line-height:1.6;padding-top:3px}
+  .qacard{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:12px}
+  .qah{padding:14px 18px;background:var(--surface);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;border-bottom:1px solid var(--border)}
+  .qaq{font-size:13px;font-weight:500;color:var(--ink2);flex:1;line-height:1.5}
+  .qas{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;flex-shrink:0}
+  .qas.hi{color:var(--green)}.qas.md{color:var(--amber)}.qas.lo{color:var(--red)}
+  .qab{padding:14px 18px}
+  .qa-ans{font-size:13px;color:var(--ink3);font-style:italic;border-left:3px solid var(--surface2);padding-left:12px;margin-bottom:10px;line-height:1.6}
+  .qa-c{font-size:14px;color:var(--ink2);line-height:1.6;margin-bottom:8px}
+  .qa-t{font-size:13px;color:var(--accent);background:var(--accent-light);border-radius:8px;padding:9px 13px}
+  .ftag{display:inline-block;background:var(--red-light);color:var(--red);font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;margin:2px}
+  .db-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:32px}
 
-  .loading-overlay { position: fixed; inset: 0; background: rgba(250,250,248,0.85); backdrop-filter: blur(4px); z-index: 500; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 14px; }
-  .loading-overlay.show { display: flex; }
-  .spinner { width: 36px; height: 36px; border: 2.5px solid var(--surface2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-text { font-size: 14px; color: var(--ink3); }
+  .overlay{position:fixed;inset:0;background:rgba(250,250,248,.88);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px}
+  .overlay.show{display:flex}
+  .spin{width:36px;height:36px;border:2.5px solid var(--surface2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .spin-text{font-size:14px;color:var(--ink3)}
 
-  footer { border-top: 1px solid var(--border); padding: 24px 32px; text-align: center; font-size: 13px; color: var(--ink3); }
+  footer{border-top:1px solid var(--border);padding:24px 32px;text-align:center;font-size:13px;color:var(--ink3)}
 
-  @media(max-width: 600px) {
-    nav { padding: 0 16px; }
-    .hero { padding: 64px 16px 56px; }
-    .stats-bar { gap: 32px; padding: 24px 16px; }
-    .setup-wrap, .interview-wrap, .debrief-summary { padding-left: 16px; padding-right: 16px; }
-    .mode-grid { grid-template-columns: 1fr; }
-    .summary-grid { grid-template-columns: 1fr; }
+  @media(max-width:600px){
+    nav{padding:0 16px}
+    .hero{padding:64px 16px 56px}
+    .stats{gap:28px;padding:24px 16px}
+    .setup,.ivwrap,.dbbody{padding-left:16px;padding-right:16px}
+    .sg{grid-template-columns:1fr}
+    .qtext{font-size:18px}
   }
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-logo" onclick="goHome()">Interview<span>IQ</span></div>
-  <div class="nav-actions">
+  <div class="logo" onclick="goHome()">Interview<span>IQ</span></div>
+  <div style="display:flex;gap:10px">
     <button class="btn btn-ghost" onclick="goHome()">Home</button>
-    <button class="btn btn-primary btn-" onclick="startSetup()">Practice now</button>
+    <button class="btn btn-ink" onclick="showScreen('setup')">Practice now</button>
   </div>
 </nav>
 
-<!-- LOADING -->
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="spinner"></div>
-  <div class="loading-text" id="loadingText">Thinking...</div>
+<div class="overlay" id="overlay">
+  <div class="spin"></div>
+  <div class="spin-text" id="spinText">Thinking...</div>
 </div>
 
-<!-- ── LANDING ── -->
+<!-- LANDING -->
 <div class="screen active" id="screen-landing">
   <section class="hero">
-    <div class="hero-eyebrow">AI-powered mock interviews</div>
+    <div class="eyebrow">AI-powered mock interviews</div>
     <h1>Practice like<br>it's <em>real.</em></h1>
-    <p class="hero-sub">The AI interviewer that doesn't go easy on you. Get honest feedback, a real score, and actually improve — before the interview that matters.</p>
+    <p>The AI interviewer that doesn't go easy on you. Brutal honest feedback, real follow-up pressure, and a score that tells you where you actually stand.</p>
     <div class="hero-cta">
-      <button class="btn btn-primary btn-lg" onclick="startSetup()">Start practicing — it's free</button>
-      <button class="btn btn-ghost btn-lg" onclick="document.querySelector('.types-section').scrollIntoView({behavior:'smooth'})">See how it works</button>
+      <button class="btn btn-ink btn-lg" onclick="showScreen('setup')">Start practicing — it's free</button>
+      <button class="btn btn-ghost btn-lg" onclick="document.querySelector('.types-sec').scrollIntoView({behavior:'smooth'})">See how it works</button>
     </div>
-    <p class="hero-note">No account needed. Works for jobs, internships, and university admissions.</p>
+    <p class="hero-note">No account · No install · Free forever · 3 interview tracks</p>
   </section>
 
-  <div class="stats-bar">
-    <div class="stat-item"><div class="stat-num">10+</div><div class="stat-label">question types</div></div>
-    <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">interview tracks</div></div>
-    <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">honest feedback</div></div>
-    <div class="stat-item"><div class="stat-num">0</div><div class="stat-label">hand-holding</div></div>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">5</div><div class="stat-l">questions per session</div></div>
+    <div class="stat"><div class="stat-n">3</div><div class="stat-l">interview tracks</div></div>
+    <div class="stat"><div class="stat-n">0</div><div class="stat-l">hand-holding</div></div>
+    <div class="stat"><div class="stat-n">100%</div><div class="stat-l">honest feedback</div></div>
   </div>
 
   <section class="features">
-    <div class="features-label">What makes it different</div>
-    <h2>Built for people who've<br>never done this before</h2>
-    <div class="features-grid">
-      <div class="feature-item">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <div class="feature-title">No easy questions</div>
-        <div class="feature-desc">The AI pushes back when your answer is vague. Expect follow-ups like a real interviewer.</div>
+    <div class="sec-label">What makes it different</div>
+    <h2>Built for people who've never done this before</h2>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <h3>Follow-up pressure</h3>
+        <p>Weak answer? The AI comes back with a harder follow-up — just like a real interviewer who isn't satisfied with your response.</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div class="feature-title">Score per answer</div>
-        <div class="feature-desc">Every response gets a 1–10 score with specific feedback — not generic tips.</div>
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <h3>Filler word detector</h3>
+        <p>Catches "um", "like", "basically", "you know" and other habits that make you sound unconfident in real time, as you type.</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        </div>
-        <div class="feature-title">Paste any job posting</div>
-        <div class="feature-desc">Drop in a real job description or university page and get questions tailored exactly to it.</div>
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h3>Score per answer</h3>
+        <p>Every response scored 1–10 with specific reasoning. Not generic tips — real critique of what you actually said.</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        </div>
-        <div class="feature-title">Type or speak</div>
-        <div class="feature-desc">Answer by typing or use your mic. Voice answers are transcribed and evaluated the same way.</div>
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <h3>Paste any job posting</h3>
+        <p>Drop in a real job description or university program page and get questions tailored exactly to that opportunity.</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        </div>
-        <div class="feature-title">Full session debrief</div>
-        <div class="feature-desc">After the interview: overall score, best answer, worst answer, and three things to fix before the real thing.</div>
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
+        <h3>Full debrief</h3>
+        <p>Overall score, strongest and weakest answer, and exactly 3 things to fix before your real interview.</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-        </div>
-        <div class="feature-title">Session history</div>
-        <div class="feature-desc">Every session is saved locally. Track your score over time and see if you're actually improving.</div>
+      <div class="feat">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <h3>Works everywhere</h3>
+        <p>No app, no account, no install. Opens in any browser. Free forever — no API key required.</p>
       </div>
     </div>
   </section>
 
-  <section class="types-section">
+  <section class="types-sec">
     <div class="types-inner">
-      <h2>Choose your interview track</h2>
-      <div class="types-grid">
-        <div class="type-card" onclick="startSetupWithType('first-job')">
-          <div class="type-tag tag-green">First job</div>
-          <div class="type-name">Part-time &amp; entry-level</div>
-          <div class="type-desc">Retail, hospitality, lifeguarding, admin. Behavioral questions, availability, why you want this role.</div>
+      <h2>Choose your track</h2>
+      <div class="types">
+        <div class="type-card" onclick="quickStart('first-job')">
+          <div class="ttag ttag-green">First job</div>
+          <h3>Part-time &amp; entry-level</h3>
+          <p>Retail, hospitality, lifeguarding, admin. Behavioral questions, reliability, why you want the role.</p>
         </div>
-        <div class="type-card" onclick="startSetupWithType('university')">
-          <div class="type-tag tag-blue">University</div>
-          <div class="type-name">Admissions interviews</div>
-          <div class="type-desc">Why this program, what drives you, extracurriculars, your vision. Common at UK, US, and IB-linked universities.</div>
+        <div class="type-card" onclick="quickStart('university')">
+          <div class="ttag ttag-blue">University</div>
+          <h3>Admissions interviews</h3>
+          <p>Why this program, what drives you, extracurriculars, your vision. UK, US, and IB-linked universities.</p>
         </div>
-        <div class="type-card" onclick="startSetupWithType('internship')">
-          <div class="type-tag tag-amber">Internship</div>
-          <div class="type-name">Competitive programs</div>
-          <div class="type-desc">Skill-based and motivational questions. Harder follow-ups, higher stakes, and more specific expectations.</div>
+        <div class="type-card" onclick="quickStart('internship')">
+          <div class="ttag ttag-amber">Internship</div>
+          <h3>Competitive programs</h3>
+          <p>Skill-based and motivational questions. Harder follow-ups, higher expectations, more specific answers required.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="cta-section">
+  <section class="cta-sec">
     <h2>Stop dreading interviews.</h2>
-    <p>The only way to get better is to practice in conditions that feel real. Start now — it takes less than 10 minutes.</p>
-    <button class="btn btn-primary btn-lg" onclick="startSetup()">Start your first mock interview</button>
+    <p>The only way to get better is to practice under real pressure. Takes less than 10 minutes.</p>
+    <button class="btn btn-ink btn-lg" onclick="showScreen('setup')">Start your first mock interview</button>
   </section>
-
   <footer>InterviewIQ — built for students who want the honest truth.</footer>
 </div>
 
-<!-- ── SETUP ── -->
+<!-- SETUP -->
 <div class="screen" id="screen-setup">
-  <div class="setup-wrap">
-    <button class="setup-back" onclick="goHome()">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      Back
+  <div class="setup">
+    <button class="back" onclick="goHome()">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back
     </button>
     <h2>Set up your interview</h2>
-    <p class="setup-sub">Tell us what you're preparing for and we'll tailor the questions.</p>
+    <p class="setup-sub">Tell us what you're preparing for and we'll tailor everything.</p>
 
-    <div class="setup-step">
-      <div class="step-label">Interview type</div>
-      <div class="type-pills">
-        <button class="type-pill" id="pill-first-job" onclick="selectType('first-job')">First job</button>
-        <button class="type-pill" id="pill-university" onclick="selectType('university')">University</button>
-        <button class="type-pill" id="pill-internship" onclick="selectType('internship')">Internship</button>
-      </div>
+    <div class="slabel">Interview type</div>
+    <div class="pills">
+      <button class="pill" id="pill-first-job" onclick="selectType('first-job')">First job</button>
+      <button class="pill" id="pill-university" onclick="selectType('university')">University</button>
+      <button class="pill" id="pill-internship" onclick="selectType('internship')">Internship</button>
     </div>
 
-    <div class="divider-line"></div>
+    <div class="div"></div>
 
-    <div class="setup-step">
-      <div class="step-label">Questions based on</div>
-      <div class="jd-toggle">
-        <button class="jd-tab active" id="tab-generic" onclick="setJDMode('generic')">Generic questions</button>
-        <button class="jd-tab" id="tab-custom" onclick="setJDMode('custom')">Paste a job / program</button>
-      </div>
-      <div id="jd-generic-note" style="font-size:13px;color:var(--ink3)">We'll ask standard questions for your interview type.</div>
-      <textarea class="jd-area" id="jdText" placeholder="Paste the job description, university program page, or any relevant text here..." style="display:none;margin-top:8px"></textarea>
+    <div class="slabel">Questions based on</div>
+    <div class="jd-tabs">
+      <button class="jdtab on" id="tab-generic" onclick="setJD('generic')">Generic questions</button>
+      <button class="jdtab" id="tab-custom" onclick="setJD('custom')">Paste a job / program</button>
     </div>
+    <div class="jd-note" id="jd-note">We'll use standard questions for your chosen track.</div>
+    <textarea class="jd" id="jdText" placeholder="Paste the job description, university program page, or any relevant details here..."></textarea>
 
-    <div class="divider-line"></div>
-
-    <div class="setup-step">
-      <div class="step-label">How will you answer?</div>
-      <div class="mode-grid">
-        <div class="mode-card selected" id="mode-text" onclick="selectMode('text')">
-          <div class="mode-card-title">Type answers</div>
-          <div class="mode-card-desc">Write your responses. Good for thinking carefully.</div>
-        </div>
-        <div class="mode-card" id="mode-voice" onclick="selectMode('voice')">
-          <div class="mode-card-title">Speak answers</div>
-          <div class="mode-card-desc">Use your mic. More realistic pressure.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="setup-footer">
-      <button class="btn btn-primary btn-lg" onclick="startInterview()" style="width:100%">Start the interview</button>
-    </div>
+    <div class="div"></div>
+    <button class="btn btn-ink btn-lg" onclick="startInterview()" style="width:100%">Start the interview →</button>
   </div>
 </div>
 
-<!-- ── INTERVIEW ── -->
+<!-- INTERVIEW -->
 <div class="screen" id="screen-interview">
-  <div class="interview-wrap">
-    <div class="interview-header">
-      <div class="interview-meta">
-        <span class="interview-badge" id="interviewBadge">First job</span>
-        <span class="interview-qnum" id="qNum">Question 1 of 5</span>
+  <div class="ivwrap">
+    <div class="ivhead">
+      <div class="ivmeta">
+        <span class="ivbadge" id="ivbadge">First job</span>
+        <span class="ivqnum" id="qnum">Question 1 of 5</span>
       </div>
-      <div style="display:flex;align-items:center;gap:10px">
-        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
-        <button class="btn btn-ghost" style="padding:6px 12px;font-size:13px" onclick="endEarly()">End session</button>
-      </div>
-    </div>
-
-    <div class="question-card">
-      <div class="interviewer-label">
-        <span class="interviewer-dot"></span>Interviewer
-        <button onclick="speak(document.getElementById('questionText').textContent)" style="margin-left:auto;background:none;border:1px solid var(--border2);border-radius:6px;padding:3px 10px;font-size:11px;cursor:pointer;color:var(--ink3);font-family:'Instrument Sans',sans-serif;" title="Read question aloud">&#9654; Listen</button>
-        <button onclick="stopSpeaking()" style="background:none;border:1px solid var(--border2);border-radius:6px;padding:3px 10px;font-size:11px;cursor:pointer;color:var(--ink3);font-family:'Instrument Sans',sans-serif;margin-left:4px;" title="Stop">&#9646;&#9646; Stop</button>
-      </div>
-      <div class="question-text" id="questionText">Loading your first question...</div>
-      <div class="question-followup" id="questionFollowup" style="display:none"></div>
-    </div>
-
-    <div class="answer-section">
-      <div class="input-tabs">
-        <button class="input-tab active" id="itab-text" onclick="switchInput('text')">Type</button>
-        <button class="input-tab" id="itab-voice" onclick="switchInput('voice')">Speak</button>
-      </div>
-      <div id="text-input-panel">
-        <textarea class="answer-textarea" id="answerText" placeholder="Write your answer here..." oninput="updateCharCount()"></textarea>
-      </div>
-      <div class="voice-panel" id="voice-input-panel">
-        <button class="voice-btn" id="voiceBtn" onclick="toggleRecording()">
-          <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        </button>
-        <div class="voice-status" id="voiceStatus">Tap to start recording</div>
-        <div class="voice-transcript" id="voiceTranscript"></div>
+      <div class="prog-wrap">
+        <div class="prog"><div class="prog-fill" id="pfill" style="width:0%"></div></div>
+        <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px" onclick="endEarly()">End session</button>
       </div>
     </div>
 
-    <div class="submit-row">
-      <span class="char-count" id="charCount">0 words</span>
-      <button class="btn btn-primary" onclick="submitAnswer()">Submit answer →</button>
+    <div class="qcard">
+      <div class="qlabel"><span class="qdot"></span>Interviewer</div>
+      <div class="qtext" id="qtext"></div>
+    </div>
+
+    <div class="fucard" id="fucard">
+      <div class="fulabel">Follow-up question</div>
+      <div class="futext" id="futext"></div>
+    </div>
+
+    <div class="awrap">
+      <textarea class="ans" id="ans" placeholder="Write your answer here. Be specific — vague answers will be called out." oninput="onType()"></textarea>
+      <div class="filler-warn" id="fwarn"></div>
+    </div>
+
+    <div class="subrow">
+      <span class="wc" id="wc">0 words</span>
+      <button class="btn btn-ink" id="subbtn" onclick="submitAnswer()">Submit answer →</button>
+    </div>
+
+    <div class="ifb" id="ifb">
+      <div class="ifhead" id="ifhead">
+        <div>
+          <div class="ifverdict" id="ifverdict"></div>
+          <div style="font-size:12px;color:var(--ink3);margin-top:2px" id="ifsub"></div>
+        </div>
+        <div class="ifscore" id="ifscore"></div>
+      </div>
+      <div class="ifbody">
+        <div class="ifcomment" id="ifcomment"></div>
+        <div class="iftip" id="iftip"></div>
+        <button class="ifnext" id="ifnext" onclick="nextQ()">Next question →</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ── DEBRIEF ── -->
+<!-- DEBRIEF -->
 <div class="screen" id="screen-debrief">
-  <div class="debrief-header">
-    <div style="font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px">Session complete</div>
+  <div class="dbhead">
+    <div class="db-ey">Session complete</div>
     <h2>Here's your debrief.</h2>
-    <div class="overall-score" id="overallScore">—</div>
-    <div class="overall-label">Overall score out of 10</div>
+    <div class="big-score" id="bigScore">—</div>
+    <div class="score-label">out of 10</div>
+    <div class="grade" id="gradeEl"></div>
   </div>
-
-  <div class="debrief-summary">
-    <div class="summary-grid">
-      <div class="summary-card">
-        <div class="summary-card-label">Strongest answer</div>
-        <div class="summary-card-val" id="strongestAnswer">—</div>
-      </div>
-      <div class="summary-card">
-        <div class="summary-card-label">Weakest answer</div>
-        <div class="summary-card-val" id="weakestAnswer">—</div>
-      </div>
+  <div class="dbbody">
+    <div class="sg">
+      <div class="sc"><div class="sc-l">Strongest answer</div><div class="sc-v" id="best">—</div></div>
+      <div class="sc"><div class="sc-l">Weakest answer</div><div class="sc-v" id="worst">—</div></div>
     </div>
-
-    <div style="font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px">3 things to fix before your real interview</div>
-    <div class="fix-list" id="fixList"></div>
-
-    <div style="font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink3);margin:28px 0 14px">Per-question breakdown</div>
-    <div id="feedbackCards"></div>
-
-    <div class="debrief-actions" style="margin-top:28px">
-      <button class="btn btn-primary btn-lg" onclick="startSetup()">Practice again</button>
+    <div class="dblabel">3 things to fix before your real interview</div>
+    <div class="fixes" id="fixes"></div>
+    <div class="dblabel" style="margin-top:28px">Per-question breakdown</div>
+    <div id="qacards"></div>
+    <div class="db-actions">
+      <button class="btn btn-ink btn-lg" onclick="showScreen('setup')">Practice again</button>
       <button class="btn btn-ghost btn-lg" onclick="goHome()">Back to home</button>
     </div>
   </div>
@@ -490,395 +406,278 @@
 
 <script src="https://js.puter.com/v2/"></script>
 <script>
-const MODEL = 'gemini-2.5-flash';
+const FILLERS = ['um','uh','like','basically','literally','you know','i mean','sort of','kind of','actually','honestly','right','so yeah','yeah so','obviously','clearly','i guess','just like'];
 
-let session = {
-  type: 'first-job',
-  jdMode: 'generic',
-  jdText: '',
-  inputMode: 'text',
-  questions: [],
-  answers: [],
-  currentQ: 0,
-  totalQ: 5,
-  feedbacks: [],
-  recognition: null,
-  isRecording: false,
-  transcript: ''
+let S = {
+  type:'first-job', jdMode:'generic', jdText:'',
+  questions:[], answers:[], feedbacks:[], fillers:[],
+  q:0, total:5, inFU:false
 };
 
-// ── NAVIGATION ──
-function goHome() { showScreen('landing'); }
-function startSetup() { showScreen('setup'); }
-function startSetupWithType(type) { selectType(type); showScreen('setup'); }
+function goHome(){ showScreen('landing'); }
 
-function showScreen(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + name).classList.add('active');
-  window.scrollTo(0, 0);
+function showScreen(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+n).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ── SETUP ──
-function selectType(type) {
-  session.type = type;
-  document.querySelectorAll('.type-pill').forEach(p => p.classList.remove('selected'));
-  document.getElementById('pill-' + type).classList.add('selected');
+function quickStart(t){ selectType(t); showScreen('setup'); }
+
+function selectType(t){
+  S.type=t;
+  ['first-job','university','internship'].forEach(x=>document.getElementById('pill-'+x).classList.remove('on'));
+  document.getElementById('pill-'+t).classList.add('on');
 }
 
-function setJDMode(mode) {
-  session.jdMode = mode;
-  document.querySelectorAll('.jd-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + mode).classList.add('active');
-  document.getElementById('jd-generic-note').style.display = mode === 'generic' ? 'block' : 'none';
-  document.getElementById('jdText').style.display = mode === 'custom' ? 'block' : 'none';
+function setJD(m){
+  S.jdMode=m;
+  document.querySelectorAll('.jdtab').forEach(x=>x.classList.remove('on'));
+  document.getElementById('tab-'+m).classList.add('on');
+  document.getElementById('jd-note').style.display=m==='generic'?'block':'none';
+  document.getElementById('jdText').style.display=m==='custom'?'block':'none';
 }
 
-function selectMode(mode) {
-  session.inputMode = mode;
-  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
-  document.getElementById('mode-' + mode).classList.add('selected');
+function detectFillers(text){
+  const lo=text.toLowerCase(), found=[];
+  FILLERS.forEach(f=>{
+    const re=new RegExp('\\b'+f.replace(/ /g,'\\s+')+'\\b','gi');
+    const m=lo.match(re);
+    if(m) found.push({word:f,count:m.length});
+  });
+  return found;
 }
 
-// ── INTERVIEW START ──
-async function startInterview() {
-  session.jdText = document.getElementById('jdText').value.trim();
-  session.questions = [];
-  session.answers = [];
-  session.feedbacks = [];
-  session.currentQ = 0;
+function onType(){
+  const text=document.getElementById('ans').value;
+  const words=text.trim().split(/\s+/).filter(Boolean).length;
+  const wc=document.getElementById('wc');
+  wc.textContent=words+' word'+(words!==1?'s':'');
+  wc.className='wc'+(words<30?' lo':words>=60?' ok':'');
+  const fillers=detectFillers(text);
+  const warn=document.getElementById('fwarn');
+  if(fillers.length){
+    warn.textContent='Filler words detected: '+fillers.map(f=>`"${f.word}"`).join(', ')+'. Clean these up.';
+    warn.classList.add('show');
+  } else {
+    warn.classList.remove('show');
+  }
+}
 
-  const typeLabels = { 'first-job': 'First job', 'university': 'University admissions', 'internship': 'Internship' };
-  document.getElementById('interviewBadge').textContent = typeLabels[session.type];
-
-  showLoading('Preparing your interview...');
+async function startInterview(){
+  S.jdText=document.getElementById('jdText').value.trim();
+  S.questions=[];S.answers=[];S.feedbacks=[];S.fillers=[];S.q=0;S.inFU=false;
+  const labels={'first-job':'First job','university':'University','internship':'Internship'};
+  document.getElementById('ivbadge').textContent=labels[S.type];
   showScreen('interview');
-
-  await generateQuestions();
-  hideLoading();
-  renderQuestion();
+  showLoad('Generating your interview questions...');
+  await genQuestions();
+  hideLoad();
+  renderQ();
 }
 
-async function generateQuestions() {
-  const typeContext = {
-    'first-job': 'entry-level part-time job (retail, hospitality, lifeguarding, service industry)',
-    'university': 'university admissions interview',
-    'internship': 'competitive internship program'
-  }[session.type];
-
-  const jdContext = session.jdMode === 'custom' && session.jdText
-    ? `The candidate is applying for this specific role/program: "${session.jdText.slice(0, 800)}"`
-    : `Use standard questions for a ${typeContext}.`;
-
-  const system = `You are a tough but fair interviewer. Generate exactly 5 interview questions for a ${typeContext}.
-${jdContext}
-Rules: Questions should be realistic, progressively harder, mix behavioral and motivational. No softballs.
-Respond ONLY with valid JSON array: ["question1","question2","question3","question4","question5"]`;
-
-  try {
-    const raw = await callAI([{ role: 'user', content: 'Generate interview questions.' }], system);
-    session.questions = JSON.parse(raw.replace(/```json|```/g, '').trim());
-  } catch(e) {
-    session.questions = [
-      "Tell me about yourself and why you're interested in this opportunity.",
-      "Describe a time you had to deal with a difficult person or situation. What did you do?",
-      "What are your greatest strengths, and give me a specific example of each in action.",
+async function genQuestions(){
+  const td={'first-job':'entry-level part-time job (retail, hospitality, service industry)','university':'university admissions interview','internship':'competitive internship program'}[S.type];
+  const jd=S.jdMode==='custom'&&S.jdText?`The candidate is applying for: "${S.jdText.slice(0,800)}"`:`Standard questions for a ${td}.`;
+  const p=`Generate exactly 5 interview questions for a ${td}.
+${jd}
+Rules: Be realistic, progressively harder. Mix behavioral ("Tell me about a time..."), motivational, and situational. No softballs. Respond ONLY with a JSON array: ["q1","q2","q3","q4","q5"]`;
+  try{
+    const raw=await callAI(p);
+    const c=raw.replace(/\`\`\`json|\`\`\`/g,'').trim();
+    S.questions=JSON.parse(c.slice(c.indexOf('['),c.lastIndexOf(']')+1));
+  }catch(e){
+    S.questions=[
+      "Tell me about yourself and what draws you to this opportunity.",
+      "Describe a time you faced a difficult person or situation. What did you do and what happened?",
+      "What are your two greatest strengths? Give me a specific real example for each.",
       "Where do you see yourself in three years, and how does this role fit into that?",
-      "Why should we choose you over other candidates?"
+      "Why should we choose you over every other candidate applying for this?"
     ];
   }
 }
 
-function renderQuestion() {
-  const q = session.questions[session.currentQ];
-  document.getElementById('questionText').textContent = q;
-  document.getElementById('questionFollowup').style.display = 'none';
-  document.getElementById('qNum').textContent = `Question ${session.currentQ + 1} of ${session.totalQ}`;
-  document.getElementById('progressFill').style.width = `${((session.currentQ) / session.totalQ) * 100}%`;
-  document.getElementById('answerText').value = '';
-  document.getElementById('charCount').textContent = '0 words';
-
-  if (session.inputMode === 'voice') {
-    switchInput('voice');
-  } else {
-    switchInput('text');
-  }
-
-  document.getElementById('answerText').focus();
-  // Auto-speak the question
-  setTimeout(() => speak(q), 300);
+function renderQ(){
+  document.getElementById('ifb').classList.remove('show');
+  document.getElementById('fucard').style.display='none';
+  document.getElementById('ans').value='';
+  document.getElementById('fwarn').classList.remove('show');
+  document.getElementById('wc').textContent='0 words';
+  document.getElementById('wc').className='wc';
+  document.getElementById('subbtn').textContent='Submit answer →';
+  document.getElementById('subbtn').disabled=false;
+  document.getElementById('subbtn').style.display='';
+  S.inFU=false;
+  document.getElementById('qtext').textContent=S.questions[S.q];
+  document.getElementById('qnum').textContent=`Question ${S.q+1} of ${S.total}`;
+  document.getElementById('pfill').style.width=`${(S.q/S.total)*100}%`;
+  document.getElementById('ans').focus();
 }
 
-// ── INPUT ──
-function switchInput(mode) {
-  document.querySelectorAll('.input-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('itab-' + mode).classList.add('active');
-  document.getElementById('text-input-panel').style.display = mode === 'text' ? 'block' : 'none';
-  const vp = document.getElementById('voice-input-panel');
-  vp.classList.toggle('active', mode === 'voice');
-}
-
-function updateCharCount() {
-  const words = document.getElementById('answerText').value.trim().split(/\s+/).filter(Boolean).length;
-  document.getElementById('charCount').textContent = `${words} word${words !== 1 ? 's' : ''}`;
-}
-
-function toggleRecording() {
-  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-    document.getElementById('voiceStatus').textContent = 'Speech recognition not supported in this browser. Try Chrome.';
+async function submitAnswer(){
+  const answer=document.getElementById('ans').value.trim();
+  const words=answer.split(/\s+/).filter(Boolean).length;
+  if(words<10){
+    document.getElementById('ans').style.borderColor='var(--red)';
+    setTimeout(()=>document.getElementById('ans').style.borderColor='',1500);
     return;
   }
-  if (session.isRecording) {
-    stopRecording();
+  const fillers=detectFillers(answer);
+  S.fillers.push(fillers);
+  if(!S.inFU){ S.answers.push(answer); }
+  else { S.answers[S.q]+=' [Follow-up]: '+answer; }
+
+  document.getElementById('subbtn').disabled=true;
+  document.getElementById('subbtn').textContent='Evaluating...';
+  showLoad('Evaluating your answer...');
+
+  const fb=await evalAnswer(S.questions[S.q], S.answers[S.q], fillers);
+  S.feedbacks.push(fb);
+  hideLoad();
+  showFeedback(fb, fillers);
+}
+
+async function evalAnswer(q,a,fillers){
+  const fn=fillers.length?`The candidate used filler words: ${fillers.map(f=>f.word).join(', ')}. Factor this in.`:'';
+  const p=`You are a brutally honest interview coach. No fluff, no encouragement padding.
+Question: "${q}"
+Answer: "${a}"
+${fn}
+Respond ONLY with JSON (no markdown):
+{"score":7,"verdict":"Short punchy verdict 3-5 words","comment":"2-3 sentences of specific critique. Name exact parts of the answer. What worked, what failed, why.","tip":"One concrete actionable fix specific to this answer.","followup":"Tough follow-up if score 6 or below, else null"}`;
+  try{
+    const raw=await callAI(p);
+    const c=raw.replace(/\`\`\`json|\`\`\`/g,'').trim();
+    return JSON.parse(c.slice(c.indexOf('{'),c.lastIndexOf('}')+1));
+  }catch(e){
+    return{score:5,verdict:'Needs more specificity',comment:'Your answer stayed at a surface level. Concrete examples with real outcomes are what interviewers are looking for.',tip:'Use the STAR method: Situation, Task, Action, Result — every behavioral answer needs a specific example.',followup:'Can you give me a specific real example to support what you just said?'};
+  }
+}
+
+function showFeedback(fb, fillers){
+  const sc=fb.score;
+  const lv=sc>=7?'hi':sc>=5?'md':'lo';
+  document.getElementById('ifhead').className='ifhead '+lv;
+  document.getElementById('ifscore').textContent=sc+'/10';
+  document.getElementById('ifscore').className='ifscore '+lv;
+  document.getElementById('ifverdict').textContent=fb.verdict||'';
+  document.getElementById('ifverdict').className='ifverdict '+lv;
+  document.getElementById('ifsub').textContent=fillers.length?'Filler words: '+fillers.map(f=>`"${f.word}"`).join(', '):'';
+  document.getElementById('ifcomment').textContent=fb.comment;
+  document.getElementById('iftip').textContent='Tip: '+fb.tip;
+
+  const isLast=S.q>=S.total-1;
+  if(sc<=6&&fb.followup&&!S.inFU){
+    document.getElementById('fucard').style.display='block';
+    document.getElementById('futext').textContent=fb.followup;
+    document.getElementById('ifnext').textContent='Answer follow-up →';
+    document.getElementById('ifnext').onclick=showFU;
   } else {
-    startRecording();
+    document.getElementById('fucard').style.display='none';
+    document.getElementById('ifnext').textContent=isLast?'See full debrief →':'Next question →';
+    document.getElementById('ifnext').onclick=nextQ;
   }
+  document.getElementById('ifb').classList.add('show');
+  document.getElementById('ifb').scrollIntoView({behavior:'smooth',block:'nearest'});
+  document.getElementById('subbtn').style.display='none';
 }
 
-async function startRecording() {
-  try {
-    await navigator.mediaDevices.getUserMedia({ audio: true });
-  } catch(e) {
-    document.getElementById('voiceStatus').textContent = 'Microphone access denied. Please allow mic access in your browser settings.';
-    return;
-  }
-
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  session.recognition = new SR();
-  session.recognition.continuous = true;
-  session.recognition.interimResults = true;
-  session.recognition.lang = 'en-US';
-  session.transcript = '';
-  document.getElementById('voiceTranscript').textContent = '';
-  document.getElementById('voiceTranscript').style.display = 'none';
-
-  session.recognition.onresult = (e) => {
-    let interim = '', final = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) {
-      if (e.results[i].isFinal) final += e.results[i][0].transcript;
-      else interim += e.results[i][0].transcript;
-    }
-    session.transcript += final;
-    const display = document.getElementById('voiceTranscript');
-    display.style.display = 'block';
-    display.textContent = session.transcript + (interim ? ' ' + interim : '');
-  };
-
-  session.recognition.onerror = (e) => {
-    const msgs = {
-      'not-allowed': 'Microphone access denied. Allow mic access and try again.',
-      'no-speech': 'No speech detected. Try speaking louder.',
-      'network': 'Network error. Check your connection.',
-      'aborted': 'Recording stopped.'
-    };
-    document.getElementById('voiceStatus').textContent = msgs[e.error] || `Error: ${e.error}. Try again.`;
-    document.getElementById('voiceBtn').classList.remove('recording');
-    session.isRecording = false;
-  };
-
-  session.recognition.onend = () => {
-    if (session.isRecording) {
-      try {
-        // Create a fresh instance but preserve transcript
-        const saved = session.transcript;
-        const SR2 = window.SpeechRecognition || window.webkitSpeechRecognition;
-        session.recognition = new SR2();
-        session.recognition.continuous = true;
-        session.recognition.interimResults = true;
-        session.recognition.lang = 'en-US';
-        session.recognition.onresult = (e) => {
-          let interim = '', final = '';
-          for (let i = e.resultIndex; i < e.results.length; i++) {
-            if (e.results[i].isFinal) final += e.results[i][0].transcript;
-            else interim += e.results[i][0].transcript;
-          }
-          session.transcript = saved + final;
-          const display = document.getElementById('voiceTranscript');
-          display.style.display = 'block';
-          display.textContent = session.transcript + (interim ? ' ' + interim : '');
-        };
-        session.recognition.onerror = () => {};
-        session.recognition.onend = arguments.callee;
-        session.recognition.start();
-      } catch(e) {}
-    }
-  };
-
-  try {
-    session.recognition.start();
-    session.isRecording = true;
-    document.getElementById('voiceBtn').classList.add('recording');
-    document.getElementById('voiceStatus').textContent = 'Recording... tap to stop';
-  } catch(e) {
-    document.getElementById('voiceStatus').textContent = 'Could not start recording. Try refreshing the page.';
-  }
+function showFU(){
+  S.inFU=true;
+  document.getElementById('ans').value='';
+  document.getElementById('fwarn').classList.remove('show');
+  document.getElementById('wc').textContent='0 words';
+  document.getElementById('ifb').classList.remove('show');
+  document.getElementById('subbtn').style.display='';
+  document.getElementById('subbtn').disabled=false;
+  document.getElementById('subbtn').textContent='Submit follow-up →';
+  document.getElementById('ifnext').onclick=nextQ;
+  document.getElementById('ans').focus();
+  document.getElementById('ans').scrollIntoView({behavior:'smooth'});
 }
 
-function stopRecording() {
-  if (session.recognition) session.recognition.stop();
-  session.isRecording = false;
-  document.getElementById('voiceBtn').classList.remove('recording');
-  document.getElementById('voiceStatus').textContent = 'Recording stopped. Submit or re-record.';
+function nextQ(){
+  S.q++;
+  document.getElementById('subbtn').style.display='';
+  if(S.q>=S.total){ buildDebrief(); }
+  else { renderQ(); window.scrollTo({top:0,behavior:'smooth'}); }
 }
 
-// ── SUBMIT ──
-async function submitAnswer() {
-  const isVoice = document.getElementById('itab-voice').classList.contains('active');
-  const displayedTranscript = document.getElementById('voiceTranscript').textContent.trim();
-  const answer = isVoice
-    ? (session.transcript.trim() || displayedTranscript)
-    : document.getElementById('answerText').value.trim();
-
-  if (!answer || answer.length < 10) {
-    alert('Please provide a fuller answer before submitting.');
-    return;
-  }
-
-  session.answers.push(answer);
-  showLoading('Evaluating your answer...');
-
-  const feedback = await evaluateAnswer(session.questions[session.currentQ], answer);
-  session.feedbacks.push(feedback);
-  hideLoading();
-
-  // Show follow-up if score is low
-  if (feedback.score <= 5 && feedback.followup) {
-    document.getElementById('questionFollowup').textContent = `Follow-up: ${feedback.followup}`;
-    document.getElementById('questionFollowup').style.display = 'block';
-  }
-
-  session.currentQ++;
-  if (session.currentQ >= session.totalQ) {
-    await generateDebrief();
-  } else {
-    renderQuestion();
-  }
+async function endEarly(){
+  if(S.answers.length===0){goHome();return;}
+  if(!confirm('End session early and see feedback on what you\'ve answered?'))return;
+  S.total=S.q+(S.feedbacks.length>S.q?1:0);
+  buildDebrief();
 }
 
-async function evaluateAnswer(question, answer) {
-  const system = `You are a brutally honest interview coach. Evaluate this answer with no hand-holding.
-Respond ONLY with valid JSON:
-{
-  "score": <1-10 integer>,
-  "comment": "<2-3 sentences: what was good and what specifically failed>",
-  "tip": "<one concrete, specific improvement>",
-  "followup": "<a tough follow-up question if score <= 5, else null>"
-}`;
-  try {
-    const raw = await callAI([{
-      role: 'user',
-      content: `Question: "${question}"\nAnswer: "${answer}"`
-    }], system);
-    return JSON.parse(raw.replace(/```json|```/g, '').trim());
-  } catch(e) {
-    return { score: 5, comment: 'Could not evaluate. Try again.', tip: 'Be more specific with examples.', followup: null };
-  }
-}
+async function buildDebrief(){
+  showLoad('Building your full debrief...');
+  showScreen('debrief');
+  const scores=S.feedbacks.map(f=>f.score);
+  const avg=scores.reduce((a,b)=>a+b,0)/(scores.length||1);
+  const lv=avg>=7?'hi':avg>=5?'md':'lo';
+  document.getElementById('bigScore').textContent=(Math.round(avg*10)/10).toFixed(1);
+  document.getElementById('bigScore').className='big-score '+lv;
+  const gs={hi:'Ready to interview',md:'Getting there — keep practicing',lo:'Needs significant work'};
+  document.getElementById('gradeEl').textContent=gs[lv];
+  document.getElementById('gradeEl').className='grade '+lv;
+  const mx=scores.indexOf(Math.max(...scores));
+  const mn=scores.indexOf(Math.min(...scores));
+  document.getElementById('best').textContent=S.questions[mx]||'—';
+  document.getElementById('worst').textContent=S.questions[mn]||'—';
 
-async function endEarly() {
-  if (session.answers.length === 0) { goHome(); return; }
-  if (!confirm('End the session early and see your feedback so far?')) return;
-  session.totalQ = session.currentQ;
-  await generateDebrief();
-}
+  const fixes=await genFixes();
+  document.getElementById('fixes').innerHTML=fixes.map((f,i)=>`<div class="fix"><div class="fix-n">${i+1}</div><div class="fix-t">${f}</div></div>`).join('');
 
-// ── DEBRIEF ──
-async function generateDebrief() {
-  showLoading('Generating your full debrief...');
-
-  const scores = session.feedbacks.map(f => f.score);
-  const avg = scores.length ? (scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
-  const rounded = Math.round(avg * 10) / 10;
-
-  const scoreEl = document.getElementById('overallScore');
-  scoreEl.textContent = rounded.toFixed(1);
-  scoreEl.className = 'overall-score ' + (avg >= 7 ? 'high' : avg >= 5 ? 'mid' : 'low');
-
-  const maxIdx = scores.indexOf(Math.max(...scores));
-  const minIdx = scores.indexOf(Math.min(...scores));
-  document.getElementById('strongestAnswer').textContent = session.questions[maxIdx] || '—';
-  document.getElementById('weakestAnswer').textContent = session.questions[minIdx] || '—';
-
-  // Generate top 3 fixes
-  const fixes = await generateFixes();
-  document.getElementById('fixList').innerHTML = fixes.map((f,i) => `
-    <div class="fix-item">
-      <div class="fix-num">${i+1}</div>
-      <div class="fix-text">${f}</div>
-    </div>`).join('');
-
-  // Per-question feedback cards
-  document.getElementById('feedbackCards').innerHTML = session.feedbacks.map((f, i) => {
-    const scoreClass = f.score >= 7 ? 'score-high' : f.score >= 5 ? 'score-mid' : 'score-low';
-    return `<div class="feedback-card">
-      <div class="feedback-header">
-        <div class="feedback-q">${session.questions[i]}</div>
-        <div class="score-badge ${scoreClass}">${f.score}<span style="font-size:13px;font-weight:400">/10</span></div>
-      </div>
-      <div class="feedback-body">
-        <div class="feedback-answer">"${session.answers[i]?.slice(0,180)}${session.answers[i]?.length > 180 ? '...' : ''}"</div>
-        <div class="feedback-comment">${f.comment}</div>
-        <div class="feedback-tip">Tip: ${f.tip}</div>
+  document.getElementById('qacards').innerHTML=S.feedbacks.map((f,i)=>{
+    const sc=f.score,lv=sc>=7?'hi':sc>=5?'md':'lo';
+    const fl=S.fillers[i]||[];
+    const flHtml=fl.length?`<div style="margin-top:8px">${fl.map(f=>`<span class="ftag">"${f.word}" ×${f.count}</span>`).join(' ')}</div>`:'';
+    const ans=S.answers[i]||'';
+    return `<div class="qacard">
+      <div class="qah"><div class="qaq">${S.questions[i]}</div><div class="qas ${lv}">${sc}/10</div></div>
+      <div class="qab">
+        <div class="qa-ans">"${ans.slice(0,200)}${ans.length>200?'...':''}"</div>
+        ${flHtml}
+        <div class="qa-c">${f.comment}</div>
+        <div class="qa-t">Tip: ${f.tip}</div>
       </div>
     </div>`;
   }).join('');
-
-  hideLoading();
-  showScreen('debrief');
+  hideLoad();
 }
 
-async function generateFixes() {
-  const summary = session.feedbacks.map((f,i) => `Q${i+1}: "${session.questions[i]}" — score ${f.score}/10. ${f.comment}`).join('\n');
-  const system = `You are a brutal but helpful interview coach. Based on these answers, give exactly 3 specific, actionable improvements.
-Respond ONLY with a JSON array of 3 strings. Each string should be one concrete thing to fix, 1-2 sentences max. Be specific, not generic.`;
-  try {
-    const raw = await callAI([{role:'user',content:`Interview performance:\n${summary}\nWhat are the 3 most important things to fix?`}], system);
-    return JSON.parse(raw.replace(/```json|```/g,'').trim());
-  } catch(e) {
-    return ['Use specific examples (STAR method) for every behavioral question.','Cut filler phrases and get to the point faster.','Research the role before answering — generic answers signal zero preparation.'];
+async function genFixes(){
+  const sum=S.feedbacks.map((f,i)=>`Q${i+1}: "${S.questions[i]}" — ${f.score}/10. ${f.comment}`).join('\n');
+  const allF=[...new Set(S.fillers.flat().map(f=>f.word))];
+  const fn=allF.length?`Filler words used throughout: ${allF.join(', ')}.`:'';
+  const p=`You are a tough interview coach. Based on this performance, give exactly 3 specific actionable improvements.
+${sum}
+${fn}
+Respond ONLY with JSON array of 3 strings. Each = one concrete fix, 1-2 sentences, specific not generic.
+["fix1","fix2","fix3"]`;
+  try{
+    const raw=await callAI(p);
+    const c=raw.replace(/\`\`\`json|\`\`\`/g,'').trim();
+    return JSON.parse(c.slice(c.indexOf('['),c.lastIndexOf(']')+1));
+  }catch(e){
+    return[
+      'Use the STAR method for every behavioral answer — your responses needed structured real-world outcomes.',
+      'Cut filler words and lead with your point. Interviewers form opinions in the first 10 seconds.',
+      'Research the specific role before answering — generic answers signal zero preparation.'
+    ];
   }
 }
 
-// ── API (Puter.js — free, no key needed) ──
-async function callAI(messages, system) {
-  const fullMessages = [
-    { role: 'user', content: system + '\n\n' + messages[messages.length - 1].content }
-  ];
-  const response = await puter.ai.chat(fullMessages[0].content, { model: MODEL });
-  return typeof response === 'string' ? response : response?.message?.content?.[0]?.text || response?.toString() || '';
+async function callAI(prompt){
+  const res=await puter.ai.chat(prompt,{model:'gpt-4o-mini'});
+  if(typeof res==='string')return res;
+  return res?.message?.content?.[0]?.text||res?.message?.content||JSON.stringify(res);
 }
 
-// ── VOICE INTERVIEWER (SpeechSynthesis) ──
-function speak(text, onEnd) {
-  if (!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.rate = 0.95;
-  utter.pitch = 1;
-  utter.volume = 1;
-  // Pick a natural English voice if available
-  const voices = window.speechSynthesis.getVoices();
-  const preferred = voices.find(v => v.lang.startsWith('en') && v.name.includes('Natural'))
-    || voices.find(v => v.lang.startsWith('en') && !v.name.includes('Google'))
-    || voices.find(v => v.lang.startsWith('en'))
-    || voices[0];
-  if (preferred) utter.voice = preferred;
-  if (onEnd) utter.onend = onEnd;
-  window.speechSynthesis.speak(utter);
-}
+function showLoad(t){document.getElementById('spinText').textContent=t||'Thinking...';document.getElementById('overlay').classList.add('show');}
+function hideLoad(){document.getElementById('overlay').classList.remove('show');}
 
-function stopSpeaking() {
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
-}
-
-function showLoading(text) {
-  document.getElementById('loadingText').textContent = text || 'Thinking...';
-  document.getElementById('loadingOverlay').classList.add('show');
-}
-function hideLoading() {
-  document.getElementById('loadingOverlay').classList.remove('show');
-}
-
-// Pre-select first job on load
 selectType('first-job');
 </script>
 </body>
